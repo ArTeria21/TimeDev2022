@@ -11,16 +11,18 @@ router = Router()
 available_menu_buttons = ['Создать задачу', 'Просмотреть задачи', 'Начать выполнение задачи', 'Кошелёк']
 
 
-@router.message(Command(commands=["start"]))
+@router.message(Command(commands=["start"], ignore_case=True))
+@router.message(Text(text="старт", ignore_case=True))
 async def cmd_start(message: Message, state: FSMContext):
     await state.clear()
     await message.answer(
-        text="Приветствую вас! Для того, чтобы узнать возможности бота, введите /menu",
+        text="Приветствую вас! Для того, чтобы узнать возможности бота, введите /menu или фразу 'меню'",
         reply_markup=ReplyKeyboardRemove()
     )
 
 
-@router.message(Command(commands=["menu"]))
+@router.message(Command(commands=["menu"], ignore_case=True))
+@router.message(Text(text="меню", ignore_case=True))
 async def cmd_menu(message: Message, state: FSMContext):
     await state.clear()
     await message.answer(
@@ -29,7 +31,7 @@ async def cmd_menu(message: Message, state: FSMContext):
     )
 
 
-@router.message(Command(commands=["cancel"]))
+@router.message(Command(commands=["cancel"], ignore_case=True))
 @router.message(Text(text="отмена", ignore_case=True))
 async def cmd_cancel(message: Message, state: FSMContext):
     await state.clear()

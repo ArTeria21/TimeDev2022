@@ -1,4 +1,4 @@
-from aiogram import Router, F
+from aiogram import Router
 from aiogram.filters.text import Text
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
@@ -15,7 +15,8 @@ class CreateTask(StatesGroup):
 
 
 # Создание новой задачи
-@router.callback_query(Text(text="Создать задачу"))
+@router.callback_query(Text(text="создать задачу", ignore_case=True))
+@router.callback_query(Text(text="создать ещё одну задачу", ignore_case=True))
 async def callbacks_create_task(callback: CallbackQuery, state: FSMContext):
     await callback.message.answer(
         text="Введите название новой задачи (максимальная длина - 300 символов): "
@@ -51,8 +52,7 @@ async def task_time_chosen(message: Message, state: FSMContext):
     await state.update_data(chosen_task_time=int(message.text))
     await message.answer(
         text="Задача успешно сохранена! Можете создать ещё одну задачу по кнопке ниже",
-        reply_markup=make_inline_keyboard(['Создать задачу'])
-        # Другое название нельзя, так как callback_data создаётся такой же, как и название кнопки
+        reply_markup=make_inline_keyboard(['Создать ещё одну задачу'])
     )
     # ЗАПИСЬ В БД СДЕЛАТЬ
     # Сброс состояния и сохранённых данных у пользователя

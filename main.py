@@ -8,9 +8,10 @@ from aiogram.fsm.storage.memory import MemoryStorage
 
 # прочтение конфига
 from config_reader import config
-from handlers import common, create_task, ordering_food
+from handlers import common, create_task, view, ordering_food
 
 
+# СДЕЛАТЬ ТЕСТ НА РАЗНЫЙ РЕГИСТ В КОМАНДАХ (СЕЙЧАС ЕСТЬ, НО НЕ РАБОТАЕТ)
 # ПЕРЕПИСАТЬ CHECH_INT
 # ПОФИКСИТЬ КОСТЫЛЬ С LAMBDA НА ФУНКЦИИ ФИЛЬТРОВ В СОЗДАНИИ ЗАДАЧИ
 
@@ -26,6 +27,7 @@ async def main():
 
     dp.include_router(common.router)
     dp.include_router(create_task.router)
+    dp.include_router(view.router)
     dp.include_router(ordering_food.router)
 
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
