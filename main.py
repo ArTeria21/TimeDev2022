@@ -1,6 +1,6 @@
 import asyncio
 import logging
-import pymongo
+from pymongo import MongoClient
 
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -14,7 +14,7 @@ from handlers import common, create_task, view, ordering_food
 # подключение базы данных
 conn_str = "mongodb+srv://timeDev:timeDevPassword@timedev22.gxnyxls.mongodb.net/?retryWrites=true&w=majority"
 # даётся 5 секунд на подключение
-client = pymongo.MongoClient(conn_str, server_api=ServerApi('1'), serverSelectionTimeoutMS=5000)
+client = MongoClient(conn_str, server_api=ServerApi('1'), serverSelectionTimeoutMS=5000)
 try:
     print(client.server_info())
 except Exception:

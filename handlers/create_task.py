@@ -4,6 +4,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
+from main import tasks
 from keyboards.inline_row import make_inline_keyboard
 
 router = Router()
@@ -41,7 +42,7 @@ async def task_name_chosen(message: Message, state: FSMContext):
 
 @router.message(CreateTask.choosing_task_time)
 async def task_time_chosen(message: Message, state: FSMContext):
-    error_time = "Пожалуйста, введите время в минутах, которое необходимо для новой задачи. \n " \
+    error_time = "Пожалуйста, введите время в минутах, которое необходимо для новой задачи. \n" \
                  "Используйте только целое число, никаких дополнительных символов. Максимально - 600 минут."
     if not message.text.isnumeric():
         await message.answer(text=error_time)
@@ -49,11 +50,14 @@ async def task_time_chosen(message: Message, state: FSMContext):
     if int(message.text) > 600:
         await message.answer(text=error_time)
         return error_time
-    await state.update_data(chosen_task_time=int(message.text))
     await message.answer(
         text="Задача успешно сохранена! Можете создать ещё одну задачу по кнопке ниже",
         reply_markup=make_inline_keyboard(['Создать ещё одну задачу'])
     )
-    # ЗАПИСЬ В БД СДЕЛАТЬ
+    created_task = await state.get_data()
+    tasks.insert_one({"userID": message.from_user.id,
+                      "taskName": created_task['chosen_task_name'], "taskTime": int(message.text),
+                      "imageID": "not sent", "status": "not sent", "endTime": "not sent"})
+
     # Сброс состояния и сохранённых данных у пользователя
     await state.clear()

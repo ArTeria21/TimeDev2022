@@ -4,7 +4,6 @@ from aiogram.filters.text import Text
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, ReplyKeyboardRemove
 
-from main import tasks
 from keyboards.inline_row import make_inline_keyboard
 
 router = Router()
@@ -16,7 +15,6 @@ available_menu_buttons = ['Создать задачу', 'Просмотреть
 @router.message(Text(text="старт", ignore_case=True))
 async def cmd_start(message: Message, state: FSMContext):
     await state.clear()
-    tasks.insert_one({"testing": "OK, bro"})
     await message.answer(
         text="Приветствую вас! Для того, чтобы узнать возможности бота, введите /menu или фразу 'меню'",
         reply_markup=ReplyKeyboardRemove()
