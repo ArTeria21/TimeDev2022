@@ -10,7 +10,6 @@ router = Router()
 # Просмотр задач
 @router.callback_query(Text(text="просмотреть задачи", ignore_case=True))
 async def callbacks_check_tasks(callback: CallbackQuery):
-    # ОГРАНИЧЕНИЕ НА ВЫВОД ТАСКОВ, ДА И В ОБЩЕМ НА КОЛИЧЕСТВО ТАСКОВ
     tasks = [{"name": "idu", "time": "45"}, {"name": "idu2", "time": "10"}]
     # ВЗЯТЬ С БД
     if tasks is None:
