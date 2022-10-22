@@ -8,7 +8,7 @@ from pymongo.server_api import ServerApi
 
 # прочтение конфига
 from config_reader import config
-from handlers import common, create_task, view, ordering_food
+from handlers import common, create_task, view
 
 
 # подключение базы данных
@@ -45,7 +45,6 @@ async def main():
     dp.include_router(common.router)
     dp.include_router(create_task.router)
     dp.include_router(view.router)
-    dp.include_router(ordering_food.router)
 
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
 

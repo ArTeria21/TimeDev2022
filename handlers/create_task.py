@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
 from main import tasks
-from keyboards.inline_row import make_inline_keyboard
+from keyboards.inline_2el_row import make_inline_2el_row_keyboard
 
 router = Router()
 
@@ -52,7 +52,7 @@ async def task_time_chosen(message: Message, state: FSMContext):
         return error_time
     await message.answer(
         text="Задача успешно сохранена! Можете создать ещё одну задачу по кнопке ниже",
-        reply_markup=make_inline_keyboard(['Создать ещё одну задачу'])
+        reply_markup=make_inline_2el_row_keyboard(['Создать ещё одну задачу'])
     )
     created_task = await state.get_data()
     tasks.insert_one({"userID": message.from_user.id,

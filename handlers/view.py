@@ -2,7 +2,7 @@ from aiogram import Router
 from aiogram.filters.text import Text
 from aiogram.types import CallbackQuery
 
-from keyboards.inline_row import make_inline_keyboard
+from keyboards.inline_2el_row import make_inline_2el_row_keyboard
 
 router = Router()
 
@@ -15,14 +15,14 @@ async def callbacks_check_tasks(callback: CallbackQuery):
     if tasks is None:
         await callback.message.answer(
             text="Ты пока не поставил никаких задач! Давай создадим новую!",
-            reply_markup=make_inline_keyboard(['Создать задачу'])
+            reply_markup=make_inline_2el_row_keyboard(['Создать задачу'])
         )
         return
     tasks_text = ''.join([f'{taskID}) {task["name"]} - займёт {task["time"]} минут \n'
                           for taskID, task in zip(range(1, len(tasks) + 1), tasks)])
     await callback.message.answer(
         text=f"   Список задач на день: \n{tasks_text}",
-        reply_markup=make_inline_keyboard(['Выполнить задачу', 'Меню'])
+        reply_markup=make_inline_2el_row_keyboard(['Выполнить задачу', 'Меню'])
     )
 
 

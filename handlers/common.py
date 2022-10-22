@@ -4,7 +4,7 @@ from aiogram.filters.text import Text
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, ReplyKeyboardRemove
 
-from keyboards.inline_row import make_inline_keyboard
+from keyboards.inline_2el_row import make_inline_2el_row_keyboard
 
 router = Router()
 
@@ -27,7 +27,7 @@ async def cmd_menu(message: Message, state: FSMContext):
     await state.clear()
     await message.answer(
         text="Вы находитесь в главном меню бота. Выберите одну из представленных возможностей: ",
-        reply_markup=make_inline_keyboard(available_menu_buttons)
+        reply_markup=make_inline_2el_row_keyboard(available_menu_buttons)
     )
 
 
