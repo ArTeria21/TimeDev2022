@@ -8,8 +8,11 @@ from aiogram.fsm.storage.memory import MemoryStorage
 
 # прочтение конфига
 from config_reader import config
-from handlers import common, ordering_food
+from handlers import common, create_task, ordering_food
 
+
+# ПЕРЕПИСАТЬ CHECH_INT
+# ПОФИКСИТЬ КОСТЫЛЬ С LAMBDA НА ФУНКЦИИ ФИЛЬТРОВ В СОЗДАНИИ ЗАДАЧИ
 
 async def main():
     logging.basicConfig(
@@ -22,6 +25,7 @@ async def main():
     bot = Bot(config.bot_token.get_secret_value())
 
     dp.include_router(common.router)
+    dp.include_router(create_task.router)
     dp.include_router(ordering_food.router)
 
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
