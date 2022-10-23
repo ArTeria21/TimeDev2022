@@ -15,7 +15,7 @@ available_menu_buttons = ['Создать задачу', 'Просмотреть
 # Возвращает строку с задачами
 async def get_tasks(callback: CallbackQuery):
     tasks_list = list(tasks.find({"userID": callback.from_user.id, "status": "не отправлено"}))
-    if not tasks_list:
+    if not tasks_list or tasks_list is None:
         await callback.message.answer(
             text=f"Ты пока не поставил никаких задач! Давай создадим новую!",
             reply_markup=make_inline_2el_row_keyboard(['Создать задачу'])

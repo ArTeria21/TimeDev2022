@@ -13,7 +13,7 @@ router = Router()
 # Просмотр задач
 @router.callback_query(Text(text="просмотреть задачи", ignore_case=True))
 async def callbacks_check_tasks(callback: CallbackQuery):
-    tasks_text = get_tasks(callback)
+    tasks_text = await get_tasks(callback)
     await callback.message.answer(
         text=f"   Список задач на день: \n{tasks_text}",
         reply_markup=make_inline_2el_row_keyboard(['Выполнить задачу', 'Меню'])
