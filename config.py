@@ -11,5 +11,6 @@ except Exception:
     exit()
 db = client['data']
 tasks = db['tasks']
+rating = db['rating']
 
 BOT_TOKEN = '5302865425:AAFD3befoEEcqZWPJtkrMN5E6tKH_wa-JfY'

@@ -4,11 +4,26 @@ from aiogram.filters.text import Text
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 
+from config import tasks
 from keyboards.inline_2el_row import make_inline_2el_row_keyboard
 
 router = Router()
 
 available_menu_buttons = ['Создать задачу', 'Просмотреть задачи', 'Начать выполнение задачи', 'Кошелёк']
+
+
+# Возвращает строку с задачами
+async def get_tasks(callback: CallbackQuery):
+    tasks_list = list(tasks.find({"userID": callback.from_user.id, "status": "не отправлено"}))
+    if not tasks_list:
+        await callback.message.answer(
+            text=f"Ты пока не поставил никаких задач! Давай создадим новую!",
+            reply_markup=make_inline_2el_row_keyboard(['Создать задачу'])
+        )
+        return
+    tasks_text = ''.join([f'{taskID}) {task["taskName"]} - займёт {task["taskTime"]} минут \n'
+                          for taskID, task in zip(range(1, len(tasks_list) + 1), tasks_list)])
+    return tasks_text
 
 
 @router.message(Command(commands=["start"], ignore_case=True))

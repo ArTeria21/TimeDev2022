@@ -8,9 +8,13 @@ from pymongo.server_api import ServerApi
 
 # прочтение конфига
 from config import BOT_TOKEN
-from handlers import common, create_task, view
+from handlers import common, create_task, task_progressing, view
 
 
+# ОТРЕФАКТОРИТЬ КОД
+# ПОФИКСИТЬ GLOBAL В TASK_PROGRESSION
+# ДОБАВИТЬ КОММЕНТАРИЕВ
+# ВОЗМОЖНО УБРАТЬ ПОВТОРНЫЙ КОД НА СПИСОК ЗАДАЧ В ВЫПОЛНЕНИИ ЗАДАЧИ И ПРОСМОТРЕ ЗАДАЧ
 # ВОЗМОЖНО ПОФИКСИТЬ КОЛБЭК НА МЕНЮ (ПОВТОРЯЕТ КОМАНДУ)
 # СДЕЛАТЬ ПО-ДРУГОМУ КОНФИГ
 # ОГРАНИЧЕНИЕ НА ВЫВОД ТАСКОВ ДА И В ОБЩЕМ НА КОЛИЧЕСТВО ТАСКОВ
@@ -33,6 +37,7 @@ async def main():
     # подключение роутеров
     dp.include_router(common.router)
     dp.include_router(create_task.router)
+    dp.include_router(task_progressing.router)
     dp.include_router(view.router)
 
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())

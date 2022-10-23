@@ -46,18 +46,18 @@ async def task_time_chosen(message: Message, state: FSMContext):
                  "Используйте только целое число, никаких дополнительных символов. Максимально - 600 минут."
     if not message.text.isnumeric():
         await message.answer(text=error_time)
-        return error_time
+        return
     if int(message.text) > 600:
         await message.answer(text=error_time)
-        return error_time
+        return
     await message.answer(
         text="Задача успешно сохранена! Можете создать ещё одну задачу по кнопке ниже",
         reply_markup=make_inline_2el_row_keyboard(['Создать ещё одну задачу'])
     )
     created_task = await state.get_data()
-    tasks.insert_one({"userID": message.from_user.id,
+    tasks.insert_one({"userID": message.from_user.id, "status": "не отправлено",
                       "taskName": created_task['chosen_task_name'], "taskTime": int(message.text),
-                      "imageID": "not sent", "status": "not sent", "endTime": "not sent"})
+                      "resImageID": "не отправлено", "resText": "не отправлено"})
 
     # Сброс состояния и сохранённых данных у пользователя
     await state.clear()
