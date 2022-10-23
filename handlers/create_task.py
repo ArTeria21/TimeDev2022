@@ -4,7 +4,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
-from main import tasks
+from config import tasks
 from keyboards.inline_2el_row import make_inline_2el_row_keyboard
 
 router = Router()

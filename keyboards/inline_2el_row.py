@@ -8,5 +8,8 @@ def make_inline_2el_row_keyboard(texts: list[str]) -> InlineKeyboardMarkup:
     :return: объект реплай-клавиатуры
     """
     inline_buttons = [InlineKeyboardButton(text=text, callback_data=text) for text in texts]
-    inline_rows = [[i, j] for i, j in zip(inline_buttons[0::2], inline_buttons[1::2])]
-    return InlineKeyboardMarkup(inline_keyboard=inline_rows)
+    if len(inline_buttons) == 1:
+        inline_buttons = [inline_buttons]
+    else:
+        inline_buttons = [[i, j] for i, j in zip(inline_buttons[0::2], inline_buttons[1::2])]
+    return InlineKeyboardMarkup(inline_keyboard=inline_buttons)

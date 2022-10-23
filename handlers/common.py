@@ -2,7 +2,7 @@ from aiogram import Router
 from aiogram.filters.command import Command
 from aiogram.filters.text import Text
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, ReplyKeyboardRemove
+from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 
 from keyboards.inline_2el_row import make_inline_2el_row_keyboard
 
@@ -26,6 +26,15 @@ async def cmd_start(message: Message, state: FSMContext):
 async def cmd_menu(message: Message, state: FSMContext):
     await state.clear()
     await message.answer(
+        text="Вы находитесь в главном меню бота. Выберите одну из представленных возможностей: ",
+        reply_markup=make_inline_2el_row_keyboard(available_menu_buttons)
+    )
+
+
+@router.callback_query(Text(text="меню", ignore_case=True))
+async def callbacks_menu(callback: CallbackQuery, state: FSMContext):
+    await state.clear()
+    await callback.message.answer(
         text="Вы находитесь в главном меню бота. Выберите одну из представленных возможностей: ",
         reply_markup=make_inline_2el_row_keyboard(available_menu_buttons)
     )
